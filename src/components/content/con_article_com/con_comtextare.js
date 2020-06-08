@@ -4,9 +4,10 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
 import {getLocalStore} from "../../../utils/localStorageUtils";
+import getArticleAndComment from "../../../utils/getArticleAndComment";
 import {PostComment, PostReply} from "../../../api";
 import {flushAction} from "../../../reducers/flushReducer";
-import getArticleAndComment from "../../../utils/getArticleAndComment";
+import {oneTextareaAction} from "../../../reducers/oneTextareaReducer";
 
 const {TextArea} = Input;
 
@@ -42,6 +43,7 @@ class ConComtextare extends Component {
                     submitting: false,
                     value: ''
                 })
+                this.props.dispatch(oneTextareaAction(""))
                 getArticleAndComment(this.articlePath).then(res => {
                     this.props.dispatch(flushAction(res))
                 })

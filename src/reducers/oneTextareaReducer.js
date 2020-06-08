@@ -3,7 +3,7 @@ const ONE_TEXTAREA = "ONE_TEXTAREA"
 const oneTextareaReducer = (state = "", action) => {
     switch (action.type) {
         case ONE_TEXTAREA:
-            return action.data
+            return state === action.data ? "" : action.data
         default:
             return state
     }

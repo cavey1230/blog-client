@@ -53,7 +53,8 @@ class ConComment extends Component {
                         })
                     },
                     pageSize: 3,
-                    hideOnSinglePage: true
+                    hideOnSinglePage: true,
+                    size:"small"
                 }}
                 dataSource={replies}
                 renderItem={item => {
