@@ -3,7 +3,7 @@ import {Comment, Form, Button, Input, message} from 'antd';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {getLocalStore} from "../../../utils/localStorageUtils";
+import {getLocalStore, removeLocalStore, saveLocalStore} from "../../../utils/localStorageUtils";
 import getArticleAndComment from "../../../utils/getArticleAndComment";
 import {PostComment, PostReply} from "../../../api";
 import {flushAction} from "../../../reducers/flushReducer";
@@ -91,18 +91,23 @@ class ConComtextare extends Component {
         //     "to_uid---", this.user_data._id,
         //     "isReply---", isReply
         // )
-
-        isReply? await this.postCommentOrReply(isReply): await this.postCommentOrReply()
+        removeLocalStore("textareaValue","session")
+        isReply ? await this.postCommentOrReply(isReply) : await this.postCommentOrReply()
     };
 
     handleChange = e => {
         this.setState({
             value: e.target.value,
         });
+        saveLocalStore(e.target.value, "textareaValue", "session")
     };
 
     render() {
-        const {submitting, value} = this.state;
+        let {submitting, value} = this.state;
+        const isInput = getLocalStore("textareaValue", "session")
+        if (isInput) {
+            value = isInput
+        }
         return (
             <Comment
                 content={

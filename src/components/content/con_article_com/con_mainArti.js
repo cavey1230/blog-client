@@ -34,6 +34,7 @@ class ConMainArti extends Component {
         comments: [],
         // 判断 Spin是否加载时 参数
         loading: true,
+        // 判断 是否是回复栏评论框
         isComment:false
     }
 

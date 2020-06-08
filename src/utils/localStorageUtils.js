@@ -23,8 +23,12 @@ const getLocalStore = (storeName="user_data",session = "localStorage") => {
 
 }
 
-const removeLocalStore = () => {
-    store.remove("user_data")
+const removeLocalStore = (storeName="user_data",session = "localStorage") => {
+    if (session === "localStorage") {
+         store.remove(storeName)
+    } else if (session === "session") {
+         store.remove(storeName)
+    }
 }
 
 export {saveLocalStore, getLocalStore, removeLocalStore}
