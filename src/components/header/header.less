@@ -1,0 +1,50 @@
+
+.com_header {
+  max-width: 1366px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+
+  .com_header_img {
+    height: 2rem;
+    width: 2rem;
+    margin-left: 1rem;
+    margin-right: 5rem;
+    @media screen and (max-width: 450px) {
+      display: none;
+    }
+  }
+
+  .com_header_menu {
+    width: 100%;
+    @media screen and (max-width: 450px) {
+      width: 100%;
+    }
+  }
+
+  .com_header_avatar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 1rem;
+
+    .com_header_loginNav {
+      display: flex;
+    }
+  }
+}
+
+.ant-menu {
+  background-color: #0e9aa7;
+  border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item a {
+  color: rgb(255, 255, 255);
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected a {
+  color: #000 !important;
+}

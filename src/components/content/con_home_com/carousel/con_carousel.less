@@ -1,0 +1,59 @@
+.con_carousel {
+  height: 400px;
+  background-color: #0e9aa7;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
+  color: white;
+
+  .con_carousel_title {
+    display: flex;
+    margin-bottom: 2rem;
+    div {
+      margin: 0 0.5rem;
+      font-size: 2rem;
+      text-align: left;
+      font-weight: normal;
+      @media screen and(max-width: 450px) {
+        font-size: 2rem;
+      }
+
+      &::after {
+        display: inline-block;
+        content: "🐂";
+        font-size: 2rem;
+      }
+    }
+  }
+  .con_carousel_search{
+    width: 600px;
+    @media screen and (max-width: 450px){
+      width: 300px;
+    }
+  }
+}
+
+.certain-category-search-dropdown .ant-select-dropdown-menu-item-group-title {
+  color: #666;
+  font-weight: bold;
+}
+
+.certain-category-search-dropdown .ant-select-dropdown-menu-item-group {
+  border-bottom: 1px solid #f6f6f6;
+}
+
+.certain-category-search-dropdown .ant-select-dropdown-menu-item {
+  padding-left: 16px;
+}
+
+.certain-category-search-dropdown .ant-select-dropdown-menu-item.show-all {
+  text-align: center;
+  cursor: default;
+}
+
+.certain-category-search-dropdown .ant-select-dropdown-menu {
+  max-height: 300px;
+}

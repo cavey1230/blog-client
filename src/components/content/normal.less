@@ -1,0 +1,84 @@
+.content_reset {
+  max-width: 1366px;
+  margin: 0.5rem auto;
+  background-color: white;
+  z-index: 0;
+  //全局分页配置
+  .ant-list-pagination{
+    text-align: center;
+  }
+  //主页样式
+  .card_groups {
+    display: flex;
+    margin: 1rem 0;
+    @media screen and (max-width: 450px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .img_groups {
+    display: flex;
+    width: 100%;
+
+    .img_item1 {
+      width: 60%;
+      height: 316px;
+      background-color: #0e9aa7;
+      margin: 1rem 0 0 1rem;
+    }
+
+    .img_item2 {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+
+      div {
+        margin: 1rem 1rem 0 1rem;
+        height: 150px;
+        background-color: #0e9aa7;
+      }
+    }
+  }
+
+  .info_groups {
+    display: flex;
+    margin: 1rem 0;
+    @media screen and (max-width: 450px) {
+      flex-direction: column;
+    }
+
+    .info_item {
+      width: 33.33%;
+      display: flex;
+      flex-direction: column;
+      @media screen and (max-width: 450px) {
+        width: 100%;
+      }
+    }
+  }
+
+  // 教程页样式
+  .web_pad {
+    display: flex;
+    flex-direction: column;
+
+    .left_pad {
+      max-width: 245px;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      div{
+        font-size: 12px;
+        text-align: left;
+        color: rgb(191, 191, 191);
+      }
+    }
+  }
+  //文章页样式
+  .con_article_main{
+    padding: 1rem;
+    @media screen and (max-width: 450px){
+      padding: 2rem;
+    }
+  }
+}
