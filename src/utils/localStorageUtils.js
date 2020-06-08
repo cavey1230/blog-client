@@ -6,7 +6,7 @@
 
 import store from "store";
 
-const saveLocalStore = (data,storeName="user_data", session = "localStorage") => {
+const saveLocalStore = (data, storeName = "user_data", session = "localStorage") => {
     if (session === "localStorage") {
         store.set(storeName, data)
     } else if (session === "session") {
@@ -14,20 +14,20 @@ const saveLocalStore = (data,storeName="user_data", session = "localStorage") =>
     }
 }
 
-const getLocalStore = (storeName="user_data",session = "localStorage") => {
+const getLocalStore = (storeName = "user_data", session = "localStorage") => {
     if (session === "localStorage") {
         return store.get(storeName)
     } else if (session === "session") {
-        return  sessionStorage.getItem(storeName)
+        return sessionStorage.getItem(storeName)
     }
 
 }
 
-const removeLocalStore = (storeName="user_data",session = "localStorage") => {
+const removeLocalStore = (storeName = "user_data", session = "localStorage") => {
     if (session === "localStorage") {
-         store.remove(storeName)
+        store.remove(storeName)
     } else if (session === "session") {
-         store.remove(storeName)
+        sessionStorage.removeItem(storeName)
     }
 }
 

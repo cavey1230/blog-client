@@ -11,6 +11,7 @@ import ConHome from "../../components/content/con_home";
 import ConWeb from "../../components/content/con_web";
 import ConArticle from "../../components/content/con_article";
 import MyFooter from "../../components/footer/footer";
+import Con404 from "../../components/content/con_404";
 
 const {Header, Footer, Content} = Layout;
 
@@ -32,6 +33,7 @@ class Home extends Component {
                         <Route exact path="/" component={ConHome}/>
                         <Route exact path="/web" component={ConWeb}/>
                         <Route exact path="/article/:id" component={ConArticle}/>
+                        <Route component={Con404}></Route>
                     </Switch>
                 </Content>
                 <Divider/>

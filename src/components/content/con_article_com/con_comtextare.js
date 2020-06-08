@@ -56,6 +56,13 @@ class ConComtextare extends Component {
             })
         }
     }
+    componentDidMount() {
+        const isInput = getLocalStore("textareaValue", "session")
+        removeLocalStore("textareaValue","session")
+        if (isInput) {
+            this.setState({value:isInput})
+        }
+    }
 
     Editor = ({onChange, onSubmit, submitting, value}) => (
         <>
@@ -104,10 +111,6 @@ class ConComtextare extends Component {
 
     render() {
         let {submitting, value} = this.state;
-        const isInput = getLocalStore("textareaValue", "session")
-        if (isInput) {
-            value = isInput
-        }
         return (
             <Comment
                 content={
