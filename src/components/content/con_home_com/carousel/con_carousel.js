@@ -57,7 +57,7 @@ class ConCarousel extends Component {
         return (
             <div className="con_carousel">
                 <div className="con_carousel_title">
-                    <div>LLBLOG</div>
+
                 </div>
                 <AutoComplete
                     dropdownClassName="certain-category-search-dropdown"

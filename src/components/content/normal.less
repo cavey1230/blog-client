@@ -4,9 +4,10 @@
   background-color: white;
   z-index: 0;
   //全局分页配置
-  .ant-list-pagination{
+  .ant-list-pagination {
     text-align: center;
   }
+
   //主页样式
   .card_groups {
     display: flex;
@@ -67,18 +68,39 @@
       padding: 16px 24px;
       display: flex;
       flex-direction: column;
-      div{
+
+      div {
         font-size: 12px;
         text-align: left;
         color: rgb(191, 191, 191);
       }
     }
   }
+
   //文章页样式
-  .con_article_main{
+  .con_article_main {
     padding: 1rem;
-    @media screen and (max-width: 450px){
+    @media screen and (max-width: 450px) {
       padding: 2rem;
+    }
+  }
+
+  //404页面
+  .con_404 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+
+    .con_404_img {
+
+    }
+
+    .con_404_tips {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 800;
+      color: #0e9aa7;
     }
   }
 }
