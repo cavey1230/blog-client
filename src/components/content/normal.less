@@ -90,17 +90,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     min-height: 80vh;
 
     .con_404_img {
-
+      background-image: url("../../assets/404.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 475px;
+      height: 300px;
+      @media screen and (max-width: 450px){
+        width: 375px;
+        height: 230px;
+      }
     }
 
     .con_404_tips {
-      font-size: 20px;
+      margin-bottom: 20px;
       text-align: center;
-      font-weight: 800;
       color: #0e9aa7;
+      span{
+        background-color: #0e9aa7;
+        padding: 10px;
+        border-radius: 25px;
+        color: white;
+        margin: 0 1rem;
+      }
     }
   }
 }
