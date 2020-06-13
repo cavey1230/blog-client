@@ -17,9 +17,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, combineReducers,applyMiddleware} from "redux";
+import {createStore, combineReducers, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
-import {createLogger} from"redux-logger";
+import {createLogger} from "redux-logger";
 
 // 此Reducer负责储存已登录用户信息
 import {userReducer} from "./reducers/userReducer";
@@ -29,11 +29,23 @@ import {selectReducer} from "./reducers/selectReducer";
 import {flushReducer} from "./reducers/flushReducer";
 // 此Reducer控制评论输入框唯一性
 import {oneTextareaReducer} from "./reducers/oneTextareaReducer";
+// 此Reducer控制导航选中状态
+import {clickHeadReducer} from "./reducers/clickHeadReducer";
+// 此Reducer控制写作中心渲染后传送给form表单的html数据
+import {centerFormReducer} from "./reducers/centerFormReducer";
 
 import App from './App';
 
-const com = combineReducers({oneTextareaReducer,userReducer,selectReducer,flushReducer})
-const store = createStore(com,applyMiddleware(createLogger()))
+const com = combineReducers({
+    clickHeadReducer,
+    oneTextareaReducer,
+    userReducer,
+    selectReducer,
+    flushReducer,
+    centerFormReducer
+})
+
+const store = createStore(com, applyMiddleware(createLogger()))
 
 ReactDOM.render(
     <Provider store={store}>

@@ -79,7 +79,7 @@ class ConComtextare extends Component {
 
     handleSubmit = async () => {
         const {isReply} = this.props
-        if (!this.user_data) {
+        if (!this.user_data || !getLocalStore()) {
             message.warn("请登录")
             return;
         }

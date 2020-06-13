@@ -1,0 +1,43 @@
+.collapse {
+  .center_panel {
+    @media screen and (max-width: 450px) {
+      width: 100%;
+    }
+
+    .center_pad {
+      background-color: white;
+      @media screen and (max-width: 450px) {
+        width: 100%;
+        .ant-list-item-action {
+          display: none;
+        }
+
+        &:hover {
+          transition: right 0.5s;
+          right: 0;
+        }
+      }
+
+      .checkbox {
+        display: flex;
+        flex-wrap: wrap;
+
+        label {
+          padding: 8px 16px;
+          @media screen and (max-width: 450px) {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .center_list {
+        @media screen and (max-width: 450px) {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
+
+
+

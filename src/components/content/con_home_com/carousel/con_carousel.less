@@ -6,25 +6,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: -50px;
+  margin-top: -1px;
   color: white;
 
   .con_carousel_title {
     display: flex;
     margin-bottom: 2rem;
-    div {
-      margin: 0 0.5rem;
-      font-size: 2rem;
-      text-align: left;
-      font-weight: normal;
+    img {
+      width: 200px;
+      height: 50px;
       @media screen and(max-width: 450px) {
-        font-size: 2rem;
-      }
-
-      &::after {
-        display: inline-block;
-        content: "🐂";
-        font-size: 2rem;
+        width: 150px;
+        height: 37.5px;
       }
     }
   }

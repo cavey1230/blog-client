@@ -15,10 +15,7 @@ import {Link} from "react-router-dom";
 import ConComtextare from "./con_comtextare";
 import {oneTextareaAction} from "../../../reducers/oneTextareaReducer";
 
-const mapStateToProps = (state) => ({
-    oneTextareaReducer: state.oneTextareaReducer
-})
-
+@connect(state => ({oneTextareaReducer: state.oneTextareaReducer}))
 class ConComment extends Component {
 
     state = {
@@ -35,26 +32,26 @@ class ConComment extends Component {
             {
                 this.props.to_uid ?
                     <div>{this.props.to_uid_name} 回复 {this.props.from_uid_name} 说 :
-                    </div> : ""
+                    </div> : null
             }
             <div style={{margin: "5px 0"}}/>
         </div>
     }
 
     renderReply = (replies) => {
-        return replies.length === 0 ? "" :
+        return replies.length === 0 ? null :
             <List
                 itemLayout="vertical"
                 size="small"
                 pagination={{
-                    onChange: page => {
+                    onChange: () => {
                         this.setState({
                             textarea_loading: false
                         })
                     },
                     pageSize: 3,
                     hideOnSinglePage: true,
-                    size:"small"
+                    size: "small"
                 }}
                 dataSource={replies}
                 renderItem={item => {
@@ -105,11 +102,13 @@ class ConComment extends Component {
                             && this.props.isComment === true ?
                                 this.state.loading ?
                                     <CaretDownOutlined/> :
-                                    <CaretUpOutlined/> : ""
+                                    <CaretUpOutlined/> : null
                         }
                         {
                             // 判断 是否为文章一级评论 返回 合展回复选项
-                            this.props.isComment === true ? this.props.reply_type === "comment" ? "" : "查看回复" : ""
+                            this.props.isComment === true ?
+                                this.props.reply_type === "comment" ?
+                                    null : "查看回复" : null
                         }
                     </span>
                 ]}
@@ -140,12 +139,12 @@ class ConComment extends Component {
                             from_uid={this.props.from_uid}
                             to_uid={this.props.to_uid}
                             isReply={true}
-                        /> : ""
+                        /> : null
                 }
                 {
                     //  合展 回复内容
                     this.state.loading ?
-                        this.renderReply(this.props.mapReplyToChild) : ""
+                        this.renderReply(this.props.mapReplyToChild) : null
                 }
                 {children}
             </Comment>
@@ -153,4 +152,4 @@ class ConComment extends Component {
     }
 }
 
-export default connect(mapStateToProps)(ConComment);
+export default ConComment;

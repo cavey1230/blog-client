@@ -3,6 +3,7 @@ import {Input, AutoComplete} from 'antd';
 import {UserOutlined} from '@ant-design/icons';
 
 import "./con_carousel.less"
+import small from "../../../../assets/small.png";
 
 class ConCarousel extends Component {
     renderTitle = title => (
@@ -57,7 +58,7 @@ class ConCarousel extends Component {
         return (
             <div className="con_carousel">
                 <div className="con_carousel_title">
-
+                    <img src={small} alt="large" />
                 </div>
                 <AutoComplete
                     dropdownClassName="certain-category-search-dropdown"

@@ -17,9 +17,9 @@ class ConHome extends Component {
                 <ConCarousel/>
                 <div className="content_reset">
                     <div className="card_groups">
-                        <ConCard/>
-                        <ConCard/>
-                        <ConCard/>
+                        <ConCard title="前端教程"/>
+                        <ConCard title="新手专题"/>
+                        <ConCard title="宝藏文章"/>
                     </div>
                     <div className="img_groups">
                         <div className="img_item1">

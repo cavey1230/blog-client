@@ -1,41 +1,49 @@
 import React, {Component} from 'react';
-import {Menu, Avatar} from 'antd';
-import {UserOutlined, UnorderedListOutlined} from '@ant-design/icons';
+import {Menu} from 'antd';
+import {UnorderedListOutlined} from '@ant-design/icons';
 import {connect} from "react-redux"
 import {Link} from "react-router-dom"
 
 import {getLocalStore, saveLocalStore} from "../../utils/localStorageUtils";
-import Login from "../log_reg/login"
-import Register from "../log_reg/register";
+import {clickHeadAction} from "../../reducers/clickHeadReducer";
+import Login from "./login_And_reg/login"
+import Register from "./login_And_reg/register";
 
 import "../header/header.less"
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo2.png"
+import AvatarDropdown from "./avatar_dropdown/avatar_dropdown";
 
-
-const mapStateToProps = (state) => {
-    return {
-        userReducer: state.userReducer
+@connect(state => (
+    {
+        userReducer: state.userReducer,
+        clickHeadReducer: state.clickHeadReducer
     }
-}
-
+))
 class MyHeader extends Component {
     state = {
         current: '',
     };
     handleClick = e => {
         saveLocalStore(e.key, "clickHeadKey", "session")
+        this.props.dispatch(clickHeadAction(e.key))
         this.setState({
             current: e.key,
         });
     };
 
+    static getDerivedStateFromProps = (nextProps, prevState) => {
+        const {clickHeadReducer} = nextProps
+        const {current} = prevState
+        if (clickHeadReducer !== current) {
+            return {current: nextProps.clickHeadReducer}
+        }
+        return null
+    }
+
     componentDidMount() {
-        if (getLocalStore("clickHeadKey", "session")
-            && getLocalStore("clickHeadKey", "session") !== "") {
-            const selectHeadKey = getLocalStore("clickHeadKey", "session")
-            this.setState({
-                current: selectHeadKey
-            });
+        const clickHeadkey = getLocalStore("clickHeadKey", "session")
+        if (clickHeadkey && clickHeadkey !== "") {
+            return {current: clickHeadkey}
         }
     }
 
@@ -58,7 +66,7 @@ class MyHeader extends Component {
                 </Menu>
                 {this.props.userReducer.avatar === true ?
                     <div className="com_header_avatar">
-                        <Avatar icon={<UserOutlined/>}/>
+                        <AvatarDropdown/>
                     </div> :
                     <div className="com_header_avatar">
                         <div className="com_header_loginNav">
@@ -73,4 +81,4 @@ class MyHeader extends Component {
     }
 }
 
-export default connect(mapStateToProps)(MyHeader);
+export default MyHeader;

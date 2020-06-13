@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import "./footer.less"
+import "./footer.less";
+
 
 class MyFooter extends Component {
+
     render() {
         return (
             <div>

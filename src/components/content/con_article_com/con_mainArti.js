@@ -11,6 +11,7 @@ import {Avatar, Divider, Empty, List, Spin} from "antd";
 import {LikeOutlined, MessageOutlined, StarOutlined, UserOutlined} from "@ant-design/icons";
 import dateformat from "dateformat";
 import {connect} from "react-redux";
+import MarkdownIt from "markdown-it"
 
 import getArticleAndComment from "../../../utils/getArticleAndComment";
 import ConComment from "./con_comment";
@@ -18,11 +19,13 @@ import ConComtextare from "./con_comtextare";
 
 import "./con_mainArti.less";
 
+const mdParser = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true
+})
 
-const mapStateToProps = (state) => (
-    {flushReducer: state.flushReducer}
-)
-
+@connect(state => ({flushReducer: state.flushReducer}))
 class ConMainArti extends Component {
 
     // 初始化 第一次加载页面时数据（必须）
@@ -35,25 +38,26 @@ class ConMainArti extends Component {
         // 判断 Spin是否加载时 参数
         loading: true,
         // 判断 是否是回复栏评论框
-        isComment:false
+        isComment: false,
+        main: "正在初始化"
     }
 
     splitArr = this.props.location.pathname
-            .split("/")
-            .slice(-1)
-            .toString()
+        .split("/")
+        .slice(-1)
+        .toString()
 
 
-    static getDerivedStateFromProps=(nextProps,prevState)=>{
-        const {flushReducer}=nextProps
-        if(flushReducer.isComment!==prevState.isComment){
+    static getDerivedStateFromProps = (nextProps, prevState) => {
+        const {flushReducer} = nextProps
+        if (flushReducer.isComment !== prevState.isComment) {
             return {...flushReducer}
         }
         return null
     }
 
     componentDidMount() {
-        getArticleAndComment(this.splitArr).then(res=>{
+        getArticleAndComment(this.splitArr).then(res => {
             this.setState({...res})
         })
     }
@@ -69,7 +73,7 @@ class ConMainArti extends Component {
                 itemLayout="vertical"
                 size="small"
                 pagination={{
-                    onChange: page => {
+                    onChange: () => {
 
                     },
                     pageSize: 3,
@@ -85,7 +89,7 @@ class ConMainArti extends Component {
                             from_uid_name={item.comment.from_uid.username}
                             from_uid={item.comment.from_uid._id}
                             mapReplyToChild={item.reply}
-                            isComment={item.reply.length !==0}
+                            isComment={item.reply.length !== 0}
                             create_time={item.comment.create_time}
                         >
                         </ConComment>
@@ -95,6 +99,7 @@ class ConMainArti extends Component {
     }
 
     render() {
+        const main = mdParser.render(this.state.main)
         return (
             <Spin spinning={this.state.loading} tip="PHP是世界上最好的语言">
                 {this.state.loading ?
@@ -119,10 +124,14 @@ class ConMainArti extends Component {
                             </div>
                         </div>
                         <Divider/>
-                        <div className="arti_content">
+                        <div className="arti_referral">
                             {this.state.referral}
-                            <Divider/>
-                            {this.state.main}
+                        </div>
+                        <Divider/>
+                        <div
+                            className="arti_content"
+                            dangerouslySetInnerHTML={{__html: main}}
+                        >
                         </div>
                         <ConComtextare key="text_main"/>
                         <Divider orientation="left">评论</Divider>
@@ -134,4 +143,4 @@ class ConMainArti extends Component {
     }
 }
 
-export default connect(mapStateToProps)(withRouter(ConMainArti));
+export default withRouter(ConMainArti);

@@ -14,6 +14,13 @@ const getArticleAndComment = async (address) => {
                     loading: false
                 }
             }
+        }else {
+            message.error("没有这篇文章")
+            return {
+                title:"没有这篇文章",
+                referral:"没有这篇文章",
+                loading: true
+            }
         }
     } catch (error) {
         message.error("获取文章和评论失败")

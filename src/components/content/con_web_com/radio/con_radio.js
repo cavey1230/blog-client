@@ -7,12 +7,9 @@
 
 import React, {Component} from 'react';
 import {Cascader, message} from 'antd';
-import {connect} from "react-redux";
 
 import {GetSelectItem} from "../../../../api/index";
-import {selectAction} from "../../../../reducers/selectReducer";
-import getAllArticleUtils from "../../../../utils/getAllArticleUtils";
-import {getLocalStore, saveLocalStore} from "../../../../utils/localStorageUtils";
+import {getLocalStore} from "../../../../utils/localStorageUtils";
 
 class ConRadio extends Component {
     state = {
@@ -35,21 +32,8 @@ class ConRadio extends Component {
             })
         )
     }
-    selectItem = getLocalStore("selectItem", "session")
 
-    onChange = (value) => {
-        let lastValue = (value.slice(-1)).toString()
-        if (lastValue === "") {
-            lastValue = "none"
-        }
-        getAllArticleUtils(1, lastValue).then(
-            res => {
-                saveLocalStore(1, "clickPage", "session")
-                saveLocalStore(lastValue, "selectItem", "session")
-                this.props.dispatch(selectAction({...res, lastValue}))
-            }
-        )
-    }
+    selectItem = getLocalStore("selectItem", "session")
 
     displayRender(label) {
         return label[label.length - 1];
@@ -58,17 +42,15 @@ class ConRadio extends Component {
     render() {
         return (
             <Cascader
-                defaultValue={
-                    this.selectItem?this.selectItem==="none"? []:[this.selectItem]:["点我筛选文章"]
-                }
+                defaultValue={this.props.defaultValue}
                 options={this.state.options}
                 expandTrigger="hover"
-                onChange={this.onChange}
+                onChange={this.props.onChange}
                 displayRender={this.displayRender}
-                placeholder="文章筛选"
+                placeholder="用于文章筛选"
             />
         );
     }
 }
 
-export default connect()(ConRadio);
+export default ConRadio;

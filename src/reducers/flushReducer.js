@@ -1,3 +1,4 @@
+// 刷新评论
 const FLUSH = "FLUSH"
 
 const flushReducer = (state = {isComment: false}, action) => {

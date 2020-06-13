@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import {Modal, Button, Form, Input, message} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
+
+import {RegisterApi} from "../../../api"
 import {connect} from "react-redux"
-import {withRouter} from "react-router-dom";
 
-import {LoginApi} from "../../api/index"
-import {userUPaction} from "../../reducers/userReducer"
-import {getLocalStore, saveLocalStore} from "../../utils/localStorageUtils"
 
-import logo from "../../assets/logo.png"
+import logo from "../../../assets/logo2.png"
 import "./loginAndreg.less"
 
 
-class Login extends Component {
+
+class Register extends Component {
     state = {
         loading: false,
         visible: false,
@@ -30,19 +29,19 @@ class Login extends Component {
 
     onFinish = async values => {
         this.setState({loading: true});
-        const {username, password} = values
-        const res = await LoginApi(username, password)
-        if (res.status === 0) {
-            saveLocalStore({...getLocalStore(), ...res.data})
-            this.setState({loading: false, visible: false})
-            const articleID = getLocalStore("articleID", "session")
-            if (this.props.location.pathname === articleID) {
-                window.location.reload(false)
-            }
-            this.props.dispatch(userUPaction(res.data))
+        const {username, password, password2} = values;
+        if (password !== password2) {
+            message.error("请确认两次密码是否相同")
+            this.setState({loading: false});
         } else {
-            message.error("登录失败，账号或密码出错")
-            this.setState({loading: false})
+            const res = await RegisterApi(username, password2)
+            if (res.status === 0) {
+                message.success("注册成功请手动登录，再次访问网站时系统会自动登录")
+                this.setState({loading: false, visible: false})
+            } else {
+                message.error("用户名已存在，请换个用户名再次注册")
+                this.setState({loading: false})
+            }
         }
     };
 
@@ -51,7 +50,7 @@ class Login extends Component {
         return (
             <div>
                 <Button type="link" onClick={this.showModal}>
-                    登录
+                    注册
                 </Button>
                 <Modal
                     visible={visible}
@@ -60,7 +59,7 @@ class Login extends Component {
                 >
                     <div className="log_reg_title">
                         <img src={logo} alt="logo"/>
-                        <span>欢迎登录</span>
+                        <span>注册账号</span>
                     </div>
                     <Form
                         name="normal_login"
@@ -92,7 +91,7 @@ class Login extends Component {
                                 },
                             ]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
+                            <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="用户名"/>
                         </Form.Item>
                         <Form.Item
                             name="password"
@@ -100,7 +99,7 @@ class Login extends Component {
                                 {
                                     required: true,
                                     whitespace: true,
-                                    message: 'Please input your Password!',
+                                    message: 'Please input your password!',
                                 },
                                 {
                                     min: 4,
@@ -119,13 +118,41 @@ class Login extends Component {
                             <Input
                                 prefix={<LockOutlined className="site-form-item-icon"/>}
                                 type="password"
-                                placeholder="Password"
+                                placeholder="密码"
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="password2"
+                            rules={[
+                                {
+                                    required: true,
+                                    whitespace: true,
+                                    message: 'Please input your password!',
+                                },
+                                {
+                                    min: 4,
+                                    message: '密码最少4位',
+                                },
+                                {
+                                    max: 12,
+                                    message: '密码最多12位',
+                                },
+                                {
+                                    pattern: /^[A-z0-9a-z_]+$/,
+                                    message: "必须是数字字母或下划线"
+                                },
+                            ]}
+                        >
+                            <Input
+                                prefix={<LockOutlined className="site-form-item-icon"/>}
+                                type="password"
+                                placeholder="再次输入密码"
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" loading={loading} htmlType="submit"
+                            <Button  type="primary" loading={loading} htmlType="submit"
                                     className="login-form-button">
-                                登录
+                                注册
                             </Button>
                         </Form.Item>
                     </Form>
@@ -135,4 +162,4 @@ class Login extends Component {
     }
 }
 
-export default connect()(withRouter(Login));
+export default connect()(Register);

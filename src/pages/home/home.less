@@ -1,16 +1,42 @@
 .home_layout{
   min-height: 100vh;
-  .home_layout_header{
+  #home_layout_header{
+    width: 100%;
     padding: 0;
     line-height: 3rem;
-    height: auto;
+    max-height: 49px;
     background-color: #0e9aa7;
-    z-index: 99;
+    z-index: 97;
   }
   .home_layout_content{
-    min-height: 80vh;
+    min-height: 100vh;
+    .UpOutlined{
+      width: 32px;
+      position: sticky;
+      float: right;
+      margin-right: 3rem;
+      bottom: 50vh;
+      z-index: 0;
+      @media screen and (max-width: 450px){
+        margin-right: 1rem;
+      }
+      .icon_group{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        .icon{
+          font-size: 32px;
+          @media screen and (max-width: 450px){
+            font-size: 25px;
+          }
+        }
+      }
+    }
   }
 }
 .ant-layout{
   background-color: white;
+}
+.ant-btn > span {
+  color: white;
 }

@@ -8,12 +8,22 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Breadcrumb} from 'antd';
+import {connect} from 'react-redux';
+
+import {saveLocalStore} from "../../../utils/localStorageUtils";
+import {clickHeadAction} from "../../../reducers/clickHeadReducer";
 
 class ConBreadcrumb extends Component {
     breadcrumbNameMap = {
         '/web': 'web教程',
         '/article': '返回搜索页'
     };
+
+    handleClick = () => {
+        saveLocalStore("/", "clickHeadKey", "session")
+        this.props.dispatch(clickHeadAction("/"))
+    }
+
     location = this.props.location;
     // filter 筛选有效信息
     pathSnippets = this.location.pathname.split('/').filter(i => i);
@@ -35,9 +45,11 @@ class ConBreadcrumb extends Component {
     // 组合 面包屑开头 返回 面包屑内部Item
     breadcrumbItems = [
         <Breadcrumb.Item key="home">
-            <Link to="/web">文章页</Link>
+            <Link onClick={()=>this.handleClick()} to="/">首页</Link>
         </Breadcrumb.Item>,
     ].concat(this.extraBreadcrumbItems)
+
+
 
     render() {
         return (
@@ -47,5 +59,6 @@ class ConBreadcrumb extends Component {
         );
     }
 }
+
 // withRouter 使普通路由能访问 history location
-export default withRouter(ConBreadcrumb);
+export default connect()(withRouter(ConBreadcrumb))

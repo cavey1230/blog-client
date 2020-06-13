@@ -1,23 +1,26 @@
 import React, {Component} from 'react';
 import {Modal, Button, Form, Input, message} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
-
-import {RegisterApi} from "../../api/index"
 import {connect} from "react-redux"
+import {withRouter} from "react-router-dom";
 
+import {LoginApi} from "../../../api"
+import {userUPaction} from "../../../reducers/userReducer"
+import {getLocalStore, saveLocalStore} from "../../../utils/localStorageUtils"
 
-import logo from "../../assets/logo.png"
+import logo from "../../../assets/logo2.png"
 import "./loginAndreg.less"
 
 
-
-class Register extends Component {
+class Login extends Component {
     state = {
         loading: false,
         visible: false,
     };
 
     showModal = () => {
+        document.body.style.overflow="auto"
+        document.body.style.width="100%"
         this.setState({
             visible: true,
         });
@@ -29,19 +32,19 @@ class Register extends Component {
 
     onFinish = async values => {
         this.setState({loading: true});
-        const {username, password, password2} = values;
-        if (password !== password2) {
-            message.error("请确认两次密码是否相同")
-            this.setState({loading: false});
-        } else {
-            const res = await RegisterApi(username, password2)
-            if (res.status === 0) {
-                message.success("注册成功请手动登录，再次访问网站时系统会自动登录")
-                this.setState({loading: false, visible: false})
-            } else {
-                message.error("用户名已存在，请换个用户名再次注册")
-                this.setState({loading: false})
+        const {username, password} = values
+        const res = await LoginApi(username, password)
+        if (res.status === 0) {
+            saveLocalStore({...getLocalStore(), ...res.data})
+            this.setState({loading: false, visible: false})
+            const articleID = getLocalStore("articleID", "session")
+            if (this.props.location.pathname === articleID) {
+                window.location.reload(false)
             }
+            this.props.dispatch(userUPaction(res.data))
+        } else {
+            message.error("登录失败，账号或密码出错")
+            this.setState({loading: false})
         }
     };
 
@@ -50,7 +53,7 @@ class Register extends Component {
         return (
             <div>
                 <Button type="link" onClick={this.showModal}>
-                    注册
+                    登录
                 </Button>
                 <Modal
                     visible={visible}
@@ -59,7 +62,7 @@ class Register extends Component {
                 >
                     <div className="log_reg_title">
                         <img src={logo} alt="logo"/>
-                        <span>注册账号</span>
+                        <span>欢迎登录</span>
                     </div>
                     <Form
                         name="normal_login"
@@ -91,7 +94,7 @@ class Register extends Component {
                                 },
                             ]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="用户名"/>
+                            <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Username"/>
                         </Form.Item>
                         <Form.Item
                             name="password"
@@ -99,7 +102,7 @@ class Register extends Component {
                                 {
                                     required: true,
                                     whitespace: true,
-                                    message: 'Please input your password!',
+                                    message: 'Please input your Password!',
                                 },
                                 {
                                     min: 4,
@@ -118,41 +121,13 @@ class Register extends Component {
                             <Input
                                 prefix={<LockOutlined className="site-form-item-icon"/>}
                                 type="password"
-                                placeholder="密码"
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="password2"
-                            rules={[
-                                {
-                                    required: true,
-                                    whitespace: true,
-                                    message: 'Please input your password!',
-                                },
-                                {
-                                    min: 4,
-                                    message: '密码最少4位',
-                                },
-                                {
-                                    max: 12,
-                                    message: '密码最多12位',
-                                },
-                                {
-                                    pattern: /^[A-z0-9a-z_]+$/,
-                                    message: "必须是数字字母或下划线"
-                                },
-                            ]}
-                        >
-                            <Input
-                                prefix={<LockOutlined className="site-form-item-icon"/>}
-                                type="password"
-                                placeholder="再次输入密码"
+                                placeholder="Password"
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Button  type="primary" loading={loading} htmlType="submit"
+                            <Button type="primary" loading={loading} htmlType="submit"
                                     className="login-form-button">
-                                注册
+                                登录
                             </Button>
                         </Form.Item>
                     </Form>
@@ -162,4 +137,4 @@ class Register extends Component {
     }
 }
 
-export default connect()(Register);
+export default connect()(withRouter(Login));
