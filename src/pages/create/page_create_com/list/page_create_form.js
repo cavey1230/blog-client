@@ -44,7 +44,7 @@ class PageForm extends Component {
                     })(<Switch/>)}
                 </div>
                 <this.CreateDivider/>
-                <Button type="primary" onClick={onFinish} htmlType="submit" className="login-form-button">
+                <Button type="primary" onClick={()=>onFinish(true)} htmlType="submit" className="login-form-button">
                     更新文章
                 </Button>
             </div>

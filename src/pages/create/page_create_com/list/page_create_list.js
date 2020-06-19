@@ -64,6 +64,7 @@ class PageList extends Component {
                 PostUpdateArticle(_id, {main, ...rest}).then(res => {
                     const {status, message: msg} = res
                     if (status === 0) {
+                        this.saveAction(obj)
                         message.success(msg)
                     } else {
                         message.error(msg)

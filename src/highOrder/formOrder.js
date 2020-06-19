@@ -70,9 +70,11 @@ const formOrder = (Com) => {
                 }).toString().split(",").filter(i => i)
                 if (errorArr.length === 0) {
                     if (update) {
-                        PostUpdateArticle(_id, {main,...rest}).then(res => {
+                        PostUpdateArticle(_id, {main, ...rest}).then(res => {
                             const {status, message: msg} = res
                             if (status === 0) {
+                                saveLocalStore(JSON.stringify({_id, main, ...rest}), "storeArticle", "session")
+                                this.props.dispatch(centerFormAction({_id, main, ...rest}))
                                 message.success(msg)
                             } else {
                                 message.error(msg)
