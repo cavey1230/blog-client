@@ -3,8 +3,6 @@ import {Divider, Layout, Affix} from 'antd';
 import {Route, Switch} from "react-router-dom";
 import {UpOutlined, DownOutlined} from "@ant-design/icons";
 
-import RouterGuard from "../../highOrder/routerGuard";
-
 import {userUPaction} from "../../reducers/userReducer";
 import {getLocalStore} from "../../utils/localStorageUtils";
 import MyHeader from "../../components/header/header";
@@ -14,7 +12,6 @@ import ConHome from "../../components/content/con_home";
 import ConWeb from "../../components/content/con_web";
 import ConArticle from "../../components/content/con_article";
 import Con404 from "../../components/content/con_404";
-import ConCreate from "../../components/content/con_create";
 
 import "./home.less";
 
@@ -77,7 +74,6 @@ class Home extends Component {
                         <Route exact path="/" component={ConHome}/>
                         <Route exact path="/web" component={ConWeb}/>
                         <Route exact path="/article/:id" component={ConArticle}/>
-                        <RouterGuard exact path="/create" component={ConCreate}/>
                         <Route component={Con404}/>
                     </Switch>
                     {

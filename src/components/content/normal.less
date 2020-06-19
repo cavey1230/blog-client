@@ -9,14 +9,6 @@
   }
 
   //主页样式
-  .card_groups {
-    display: flex;
-    margin: 1rem 0;
-    @media screen and (max-width: 450px) {
-      flex-wrap: wrap;
-    }
-  }
-
   .img_groups {
     display: flex;
     width: 100%;
@@ -62,6 +54,7 @@
   .web_pad {
     display: flex;
     flex-direction: column;
+    min-height: 80vh;
 
     .left_pad {
       max-width: 245px;
@@ -116,33 +109,6 @@
         border-radius: 25px;
         color: white;
         margin: 0 1rem;
-      }
-    }
-  }
-
-  // 文章编写页面
-  .create_pad{
-    width: 100%;
-    min-height: 80vh;
-    display: flex;
-    padding: 16px 24px;
-    @media screen and (max-width: 450px){
-      flex-direction: column;
-    }
-    .left_pad{
-      width: 50%;
-      @media screen and (max-width: 450px){
-        width: 100%;
-      }
-    }
-    .right_pad{
-      width: 100%;
-      height: 80vh;
-      margin: 6px 0 0 24px;
-      @media screen and (max-width: 450px){
-        margin-left: 0;
-        margin-top: 1rem;
-        height: 60vh;
       }
     }
   }

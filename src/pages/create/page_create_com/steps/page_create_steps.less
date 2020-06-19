@@ -1,0 +1,111 @@
+.steps-content {
+  margin-top: 40px;
+  border-radius: 2px;
+  min-height: 180px;
+  @media (max-width: 480px) {
+    margin-top: 0;
+    min-height: 100px;
+  }
+  span{
+    font-size: 10px;
+  }
+  .steps-content-form {
+    .ant-input {
+      font-size: 35px;
+      background-color: white;
+      border: none;
+      @media (max-width: 480px) {
+        font-size: 20px;
+      }
+    }
+    .ant-cascader-picker{
+      width: 100%;
+      font-size: 35px;
+      @media (max-width: 480px) {
+        font-size: 20px;
+      }
+      .ant-cascader-picker-label {
+        font-size: 35px;
+        overflow: visible;
+        @media (max-width: 480px) {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+.steps-action {
+  text-align: center;
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    span {
+      border-bottom: 5px solid white;
+      cursor: pointer;
+      position: relative;
+      top: 0;
+      &:hover{
+        top: 10px;
+        transition: top 50ms;
+      }
+    }
+  }
+}
+
+.ant-steps-item-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 34px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  @media (max-width: 480px) {
+    width: 34px;
+    height: 34px;
+    font-size: 25px;
+  }
+}
+
+.ant-steps-item-title {
+  position: relative;
+  display: inline-block;
+  padding-right: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.ant-steps-item {
+  margin-bottom: 30px;
+}
+
+.ant-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-steps-item-title::after {
+  display: none;
+}
+
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: white;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #0e9aa7;
+}
+
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+@media (max-width: 480px) {
+  .ant-steps-horizontal.ant-steps-label-horizontal > .ant-steps-item:not(:last-child) > .ant-steps-item-container > .ant-steps-item-tail {
+    display: none;
+  }
+}
+

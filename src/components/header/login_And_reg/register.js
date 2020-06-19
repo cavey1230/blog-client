@@ -49,7 +49,7 @@ class Register extends Component {
         const {visible, loading} = this.state;
         return (
             <div>
-                <Button type="link" onClick={this.showModal}>
+                <Button style={{color:"white"}} type="link" onClick={this.showModal}>
                     注册
                 </Button>
                 <Modal

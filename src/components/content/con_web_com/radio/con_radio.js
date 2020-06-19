@@ -40,9 +40,11 @@ class ConRadio extends Component {
     }
 
     render() {
+        let {defaultValue,value} = this.props
         return (
             <Cascader
-                defaultValue={this.props.defaultValue}
+                defaultValue={defaultValue}
+                value={[value]}
                 options={this.state.options}
                 expandTrigger="hover"
                 onChange={this.props.onChange}

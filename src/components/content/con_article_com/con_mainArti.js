@@ -11,19 +11,15 @@ import {Avatar, Divider, Empty, List, Spin} from "antd";
 import {LikeOutlined, MessageOutlined, StarOutlined, UserOutlined} from "@ant-design/icons";
 import dateformat from "dateformat";
 import {connect} from "react-redux";
-import MarkdownIt from "markdown-it"
 
+import mdParser from "../../../config/markdown_It_Config";
+import createIndex from "../../../utils/ArticleIndexUtils";
 import getArticleAndComment from "../../../utils/getArticleAndComment";
 import ConComment from "./con_comment";
 import ConComtextare from "./con_comtextare";
 
 import "./con_mainArti.less";
 
-const mdParser = new MarkdownIt({
-    html: true,
-    linkify: true,
-    typographer: true
-})
 
 @connect(state => ({flushReducer: state.flushReducer}))
 class ConMainArti extends Component {
@@ -39,14 +35,13 @@ class ConMainArti extends Component {
         loading: true,
         // 判断 是否是回复栏评论框
         isComment: false,
-        main: "正在初始化"
+        main: "文章不存在或被隐藏"
     }
 
     splitArr = this.props.location.pathname
         .split("/")
         .slice(-1)
         .toString()
-
 
     static getDerivedStateFromProps = (nextProps, prevState) => {
         const {flushReducer} = nextProps
@@ -58,7 +53,11 @@ class ConMainArti extends Component {
 
     componentDidMount() {
         getArticleAndComment(this.splitArr).then(res => {
-            this.setState({...res})
+            const {main, ...rest} = res
+            if(main){
+                const {result, tables} = createIndex(mdParser.render(main))
+                this.setState({...rest, main: result, tables})
+            }
         })
     }
 
@@ -99,7 +98,6 @@ class ConMainArti extends Component {
     }
 
     render() {
-        const main = mdParser.render(this.state.main)
         return (
             <Spin spinning={this.state.loading} tip="PHP是世界上最好的语言">
                 {this.state.loading ?
@@ -112,26 +110,37 @@ class ConMainArti extends Component {
                             <div>{dateformat(this.state.create_time, "yyyy-mm-dd HH:MM:ss")}</div>
                             <div>
                                 <StarOutlined/>
-                                <span>{this.state.star}</span>
+                                <span style={{marginLeft: "5px"}}>{this.state.star}</span>
                             </div>
                             <div>
                                 <LikeOutlined/>
-                                <span>{this.state.like}</span>
+                                <span style={{marginLeft: "5px"}}>{this.state.like}</span>
                             </div>
                             <div>
                                 <MessageOutlined/>
-                                <span>{this.state.message}</span>
+                                <span style={{marginLeft: "5px"}}>{this.state.message}</span>
                             </div>
                         </div>
-                        <Divider/>
                         <div className="arti_referral">
                             {this.state.referral}
                         </div>
-                        <Divider/>
-                        <div
-                            className="arti_content"
-                            dangerouslySetInnerHTML={{__html: main}}
-                        >
+                        <div className="arti_content">
+                            <div className="arti_content_right">
+                                {this.state.tables.length > 0 ?
+                                    <div className="blog-table" ref={this.table}>
+                                        <div className="blog-table-title">目录</div>
+                                        {this.state.tables.map(({hash, tag}, index) => (
+                                            <div key={index} className="blog-table-item">
+                                                <a className={"blog-table-item-" + tag} href={'#' + hash}>{hash}</a>
+                                            </div>
+                                        ))}
+                                    </div> : ""}
+                            </div>
+                            <div className="arti_content_left">
+                                <div className="arti_markdown"
+                                     dangerouslySetInnerHTML={{__html: this.state.main}}>
+                                </div>
+                            </div>
                         </div>
                         <ConComtextare key="text_main"/>
                         <Divider orientation="left">评论</Divider>

@@ -8,6 +8,8 @@ import getArticleAndComment from "../../../utils/getArticleAndComment";
 import {PostComment, PostReply} from "../../../api";
 import {flushAction} from "../../../reducers/flushReducer";
 import {oneTextareaAction} from "../../../reducers/oneTextareaReducer";
+import createIndex from "../../../utils/ArticleIndexUtils";
+import mdParser from "../../../config/markdown_It_Config";
 
 const {TextArea} = Input;
 
@@ -45,7 +47,11 @@ class ConComtextare extends Component {
                 })
                 this.props.dispatch(oneTextareaAction(""))
                 getArticleAndComment(this.articlePath).then(res => {
-                    this.props.dispatch(flushAction(res))
+                    const {main, ...rest} = res
+                    if(main){
+                        const {result, tables} = createIndex(mdParser.render(main))
+                        this.props.dispatch(flushAction({...rest, main: result, tables}))
+                    }
                 })
             }
         } catch (error) {

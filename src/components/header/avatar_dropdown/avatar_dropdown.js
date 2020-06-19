@@ -33,7 +33,7 @@ const AvatarDropdown = (props) => {
                 <div>exp</div>
             </div>
             <Menu.Divider/>
-            <Menu.Item key="write"><Link to="/create"><EditOutlined style={{marginRight:"8px"}}/>编写文章</Link> </Menu.Item>
+            <Menu.Item key="write"><Link to="/create"><EditOutlined style={{marginRight:"8px"}}/>文章中心</Link> </Menu.Item>
             <Menu.Divider/>
             <Menu.Item key="message"><MessageOutlined/>消息中心</Menu.Item>
             <Menu.Divider/>

@@ -1,13 +1,17 @@
-import ajax from "./ajax";
+import {ajax,upLoad} from "./ajax";
 
-// 提交 登录表单数据
 // --------------POST-----------------
+// 提交 登录表单数据
 const LoginApi = (username, password) => {
     return ajax("/login", {username, password}, "post")
 }
 // 提交 注册表单数据
 const RegisterApi = (username, password) => {
     return ajax("/register", {username, password}, "post")
+}
+// 修改用户数据
+const PostUpdateUser = (userId,fileData) => {
+    return ajax("/postUpdateUser", {userId,fileData}, "post")
 }
 // 提交 评论数据
 const PostComment = (object) => {
@@ -21,6 +25,15 @@ const PostReply = (object) => {
 const PostCreateArticle = (object) => {
     return ajax("/postCreateArticle", {...object}, "post")
 }
+// 更新文章
+const PostUpdateArticle = (articleID,fileData) => {
+    return ajax("/postUpdateArticle", {articleID,fileData}, "post")
+}
+// 上传图片
+const PostUpload=(data)=>{
+    return upLoad("/postUpLoad",data)
+}
+
 // --------------GET------------------
 // 获取 标签下 用户点击页 列表信息
 const GetAllArticle = (page, target) => {
@@ -51,9 +64,12 @@ export {
     //post
     LoginApi,
     RegisterApi,
+    PostUpdateUser,
     PostComment,
     PostReply,
     PostCreateArticle,
+    PostUpdateArticle,
+    PostUpload,
     //get
     GetAllArticle,
     GetUserArticle,
