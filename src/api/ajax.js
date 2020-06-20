@@ -15,11 +15,12 @@ const ajax = (url, data = {}, method = "get") => {
     })
 }
 
-const upLoad = (url, data) => {
+const upLoad = (url, data, id) => {
     return new Promise((resolve) => {
-        let formData=new FormData()
-        formData.append("image",data)
-        axios.post(url, formData, {headers: {"Content-Type":"multipart/form-data"}}).then(res => {
+        let formData = new FormData()
+        formData.append("image", data)
+        formData.append("articleID", id)
+        axios.post(url, formData, {headers: {"Content-Type": "multipart/form-data"}}).then(res => {
             resolve(res.data)
         }).catch(err => {
             message.error("上传图片请求出错", err.message)

@@ -30,8 +30,8 @@ const PostUpdateArticle = (articleID,fileData) => {
     return ajax("/postUpdateArticle", {articleID,fileData}, "post")
 }
 // 上传图片
-const PostUpload=(data)=>{
-    return upLoad("/postUpLoad",data)
+const PostUpload=(data,id)=>{
+    return upLoad("/postUpLoad",data,id)
 }
 
 // --------------GET------------------

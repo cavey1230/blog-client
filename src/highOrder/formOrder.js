@@ -7,10 +7,7 @@ import {PostCreateArticle, PostUpdateArticle, PostUpdateUser} from "../api";
 import {getLocalStore, saveLocalStore} from "../utils/localStorageUtils";
 
 const formOrder = (Com) => {
-    @connect(state => ({
-        centerFormReducer: state.centerFormReducer,
-
-    }))
+    @connect(state => ({centerFormReducer: state.centerFormReducer,}))
     class Hoc extends Component {
 
         state = {}

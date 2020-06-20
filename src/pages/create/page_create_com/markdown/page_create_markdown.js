@@ -5,13 +5,13 @@ import MdEditor from 'react-markdown-editor-lite';
 import {centerFormAction} from "../../../../reducers/centerFormReducer";
 import mdParser from "../../../../config/markdown_It_Config";
 import {PostUpload} from "../../../../api";
-import {saveLocalStore} from "../../../../utils/localStorageUtils";
+import {getLocalStore, saveLocalStore} from "../../../../utils/localStorageUtils";
 // 导入编辑器的样式
 import 'react-markdown-editor-lite/lib/index.css';
 import "./page_create_markdown.less";
 
 
-@connect(state => ({centerFormReducer: state.centerFormReducer.main}))
+@connect(state => ({centerFormReducer: state.centerFormReducer}))
 class PageMarkdown extends React.Component {
     handleEditorChange({text}) {
         this.props.dispatch(centerFormAction({main:text}))
@@ -22,20 +22,24 @@ class PageMarkdown extends React.Component {
     }
 
     render() {
+        const {main}=this.props.centerFormReducer
         return <MdEditor
             id="editor"
             style={{height: "100%"}}
             config={{
                 imageAccept: ".jpg,.png"
             }}
-            value={this.props.centerFormReducer}
+            value={main}
             renderHTML={(text) => mdParser.render(text)}
             onChange={(html) => this.handleEditorChange(html)}
             onImageUpload={(file) => {
                 return new Promise(resolve => {
-                    PostUpload(file).then(res => {
-                        const images = res.files.image.path.split("\\").slice(-1)
-                        console.log(images)
+                    let {_id}=this.props.centerFormReducer
+                    if(!_id){
+                        _id=getLocalStore("create_article_id")
+                    }
+                    PostUpload(file,_id).then(res => {
+                        const images = res.url.split("\\").slice(-2).join("/")
                         resolve(`http://127.0.0.1:5000/images/${images}`)
                     })
                 });
