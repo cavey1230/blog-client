@@ -12,6 +12,8 @@ import ConHome from "../../components/content/con_home";
 import ConWeb from "../../components/content/con_web";
 import ConArticle from "../../components/content/con_article";
 import Con404 from "../../components/content/con_404";
+import ConMessage from "../../components/content/con_message";
+import RouterGuard from "../../highOrder/routerGuard";
 
 import "./home.less";
 
@@ -74,6 +76,7 @@ class Home extends Component {
                         <Route exact path="/" component={ConHome}/>
                         <Route exact path="/web" component={ConWeb}/>
                         <Route exact path="/article/:id" component={ConArticle}/>
+                        <RouterGuard exact path="/message" component={ConMessage}/>
                         <Route component={Con404}/>
                     </Switch>
                     {

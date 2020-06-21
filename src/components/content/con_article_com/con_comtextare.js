@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 
 import {getLocalStore, removeLocalStore, saveLocalStore} from "../../../utils/localStorageUtils";
 import getArticleAndComment from "../../../utils/getArticleAndComment";
-import {PostComment, PostReply} from "../../../api";
+import {PostComment, PostReply, PostCreateMessage} from "../../../api";
 import {flushAction} from "../../../reducers/flushReducer";
 import {oneTextareaAction} from "../../../reducers/oneTextareaReducer";
 import createIndex from "../../../utils/ArticleIndexUtils";
@@ -27,19 +27,37 @@ class ConComtextare extends Component {
 
     postCommentOrReply = async (isReply) => {
         try {
-            let result = isReply ? await PostReply({
-                comment_id: this.props.comment_id,
-                reply_id: this.props.comment_id,
-                reply_type: "comment",
-                content: this.state.value,
-                from_uid: this.props.to_uid || this.props.from_uid,
-                to_uid: this.user_data._id
-            }) : await PostComment({
-                content: this.state.value,
-                topic_type: "article",
-                topic_id: this.articlePath,
-                from_uid: this.user_data._id
-            })
+            let result
+            if (isReply) {
+                const inner_Object = {
+                    comment_id: this.props.comment_id,
+                    reply_id: this.props.comment_id,
+                    reply_type: "comment",
+                    content: this.state.value,
+                    from_uid: this.props.to_uid || this.props.from_uid,
+                    to_uid: this.user_data._id
+                }
+                result = await PostReply(inner_Object)
+                await PostCreateMessage({
+                    isReply: true,
+                    article_id: this.articlePath,
+                    ...inner_Object
+                })
+            } else {
+                const inner_Object={
+                    content: this.state.value,
+                    topic_type: "article",
+                    topic_id: this.articlePath,
+                    from_uid: this.user_data._id
+                }
+                result = await PostComment(inner_Object)
+                await PostCreateMessage({
+                    isReply: false,
+                    article_id: this.articlePath,
+                    reply_id: result.data._id,
+                    ...inner_Object
+                })
+            }
             if (result.status === 0) {
                 this.setState({
                     submitting: false,
@@ -48,7 +66,7 @@ class ConComtextare extends Component {
                 this.props.dispatch(oneTextareaAction(""))
                 getArticleAndComment(this.articlePath).then(res => {
                     const {main, ...rest} = res
-                    if(main){
+                    if (main) {
                         const {result, tables} = createIndex(mdParser.render(main))
                         this.props.dispatch(flushAction({...rest, main: result, tables}))
                     }
@@ -62,11 +80,12 @@ class ConComtextare extends Component {
             })
         }
     }
+
     componentDidMount() {
         const isInput = getLocalStore("textareaValue", "session")
-        removeLocalStore("textareaValue","session")
+        removeLocalStore("textareaValue", "session")
         if (isInput) {
-            this.setState({value:isInput})
+            this.setState({value: isInput})
         }
     }
 
@@ -104,7 +123,7 @@ class ConComtextare extends Component {
         //     "to_uid---", this.user_data._id,
         //     "isReply---", isReply
         // )
-        removeLocalStore("textareaValue","session")
+        removeLocalStore("textareaValue", "session")
         isReply ? await this.postCommentOrReply(isReply) : await this.postCommentOrReply()
     };
 

@@ -14,7 +14,7 @@ class RouterGuard extends Component {
     }
 
     render() {
-        const {userReducer, component: Component, ...rest} = this.props
+        const {component: Component, ...rest} = this.props
         const user_info = getLocalStore()
         const id = user_info ? user_info._id : undefined
         return (

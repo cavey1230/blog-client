@@ -35,7 +35,7 @@ const AvatarDropdown = (props) => {
             <Menu.Divider/>
             <Menu.Item key="write"><Link to="/create"><EditOutlined style={{marginRight:"8px"}}/>文章中心</Link> </Menu.Item>
             <Menu.Divider/>
-            <Menu.Item key="message"><MessageOutlined/>消息中心</Menu.Item>
+            <Menu.Item key="message"><Link to="/message"><MessageOutlined style={{marginRight:"8px"}}/>消息中心</Link></Menu.Item>
             <Menu.Divider/>
             <Menu.Item key="logout"><LogoutOutlined/>注销登录</Menu.Item>
         </Menu>
@@ -48,7 +48,6 @@ const AvatarDropdown = (props) => {
                 props.dispatch(userDELaction())
                 break;
             case "message":
-                message.info(`Click on item ${key}`);
                 break;
             case "write":
                 break;

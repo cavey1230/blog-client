@@ -29,6 +29,10 @@ const PostCreateArticle = (object) => {
 const PostUpdateArticle = (articleID,fileData) => {
     return ajax("/postUpdateArticle", {articleID,fileData}, "post")
 }
+// 创建消息
+const PostCreateMessage = (object) => {
+    return ajax("/postCreateMessage", {...object}, "post")
+}
 // 上传图片
 const PostUpload=(data,id)=>{
     return upLoad("/postUpLoad",data,id)
@@ -59,6 +63,10 @@ const GetComment = (articleId) => {
 const GetRecommend=(title)=>{
     return ajax(`/getRecommend/${title}`)
 }
+// 获取 消息中心 用户消息
+const GetMessage=(user_id,page)=>{
+    return ajax(`/getMessage/${user_id}/${page}`)
+}
 
 export {
     //post
@@ -69,6 +77,7 @@ export {
     PostReply,
     PostCreateArticle,
     PostUpdateArticle,
+    PostCreateMessage,
     PostUpload,
     //get
     GetAllArticle,
@@ -76,6 +85,7 @@ export {
     GetSelectItem,
     GetOneArticle,
     GetComment,
-    GetRecommend
+    GetRecommend,
+    GetMessage
 
 }
