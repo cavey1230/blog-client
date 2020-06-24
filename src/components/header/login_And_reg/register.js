@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Form, Input, message} from 'antd';
-import {UserOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined, LockOutlined, BarcodeOutlined} from '@ant-design/icons';
 
 import {RegisterApi} from "../../../api"
 import {connect} from "react-redux"
@@ -10,11 +10,11 @@ import logo from "../../../assets/logo2.png"
 import "./loginAndreg.less"
 
 
-
 class Register extends Component {
     state = {
         loading: false,
         visible: false,
+        random: ""
     };
 
     showModal = () => {
@@ -29,17 +29,17 @@ class Register extends Component {
 
     onFinish = async values => {
         this.setState({loading: true});
-        const {username, password, password2} = values;
+        const {username, password, password2,captcha} = values;
         if (password !== password2) {
             message.error("请确认两次密码是否相同")
             this.setState({loading: false});
         } else {
-            const res = await RegisterApi(username, password2)
+            const res = await RegisterApi(username, password2,captcha)
             if (res.status === 0) {
                 message.success("注册成功请手动登录，再次访问网站时系统会自动登录")
                 this.setState({loading: false, visible: false})
             } else {
-                message.error("用户名已存在，请换个用户名再次注册")
+                message.error(res.msg)
                 this.setState({loading: false})
             }
         }
@@ -49,7 +49,7 @@ class Register extends Component {
         const {visible, loading} = this.state;
         return (
             <div>
-                <Button style={{color:"white"}} type="link" onClick={this.showModal}>
+                <Button style={{color: "white"}} type="link" onClick={this.showModal}>
                     注册
                 </Button>
                 <Modal
@@ -149,8 +149,31 @@ class Register extends Component {
                                 placeholder="再次输入密码"
                             />
                         </Form.Item>
+                        <div className="captcha">
+                            <Form.Item
+                                name="captcha"
+                                style={{width: "70%"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        whitespace: true,
+                                        message: '请输入验证码',
+                                    }
+                                ]}
+                            >
+                                <Input
+                                    prefix={<BarcodeOutlined className="site-form-item-icon"/>}
+                                    placeholder="captcha"
+                                />
+                            </Form.Item>
+                            <img width="30%" onClick={() => {
+                                this.setState({
+                                    random: Math.random() * 100
+                                })
+                            }} src={`http://localhost:5000/getCaptcha?random=${this.state.random}`} alt="验证码"/>
+                        </div>
                         <Form.Item>
-                            <Button  type="primary" loading={loading} htmlType="submit"
+                            <Button type="primary" loading={loading} htmlType="submit"
                                     className="login-form-button">
                                 注册
                             </Button>

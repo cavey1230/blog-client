@@ -15,6 +15,7 @@ import {getLocalStore, removeLocalStore} from "../../../utils/localStorageUtils"
 import {userDELaction} from "../../../reducers/userReducer";
 
 import "./avatar_dropdown.less"
+import {GetCaptcha} from "../../../api";
 
 const AvatarDropdown = (props) => {
     const {username, description} = getLocalStore()
@@ -25,12 +26,12 @@ const AvatarDropdown = (props) => {
                 <Avatar size={64} icon={<UserOutlined/>}/>
                 <div>{username}</div>
                 <div><span>简介：</span>{description}</div>
-                <div>
-                    文章:<span>60</span>
-                    粉丝:<span>60</span>
-                    获赞:<span>60</span>
-                </div>
-                <div>exp</div>
+                {/*<div>*/}
+                {/*    文章:<span>60</span>*/}
+                {/*    粉丝:<span>60</span>*/}
+                {/*    获赞:<span>60</span>*/}
+                {/*</div>*/}
+                {/*<div>exp</div>*/}
             </div>
             <Menu.Divider/>
             <Menu.Item key="write"><Link to="/create"><EditOutlined style={{marginRight:"8px"}}/>文章中心</Link> </Menu.Item>
@@ -46,6 +47,7 @@ const AvatarDropdown = (props) => {
             case "logout":
                 removeLocalStore()
                 props.dispatch(userDELaction())
+                GetCaptcha()
                 break;
             case "message":
                 break;

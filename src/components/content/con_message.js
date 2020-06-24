@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
 import {List, Avatar, Button, Skeleton} from 'antd';
 import dateformat from "dateformat";
-
-import {GetMessage} from "../../api/index";
-import {getLocalStore} from "../../utils/localStorageUtils";
 import {FireTwoTone} from "@ant-design/icons";
+import {connect} from "react-redux";
 
+import {GetMessage, RemoveMessage} from "../../api/index";
+import {getLocalStore} from "../../utils/localStorageUtils";
+import {oneTextareaAction} from "../../reducers/oneTextareaReducer";
+import ConComtextare from "./con_article_com/con_comtextare";
+
+@connect(state => ({oneTextareaReducer: state.oneTextareaReducer}))
 class ConMessage extends Component {
 
     state = {
@@ -87,14 +91,39 @@ class ConMessage extends Component {
                                 loading={initLoading}
                                 loadMore={loadMore}
                                 dataSource={list}
+                                locale={{emptyText: '暂时还没有消息'}}
                                 size="small"
                                 itemLayout="vertical"
                                 renderItem={(item, index) => {
-                                    const {isReply, to_uid, article_id, content, create_time} = item
+                                    const {isReply, to_uid, article_id, content, create_time, reply_id, _id} = item
                                     const time = dateformat(create_time, "yyyy-mm-dd HH:MM")
-                                    return <List.Item
-                                        actions={[<a key="list-loadmore-edit">忽略</a>,
-                                            <a key="list-loadmore-more">回复</a>]}
+                                    return <><List.Item
+                                        actions={[
+                                            <span
+                                                onClick={async () => {
+                                                    await RemoveMessage(_id)
+                                                    let newArr = this.state.list
+                                                    const index = newArr.map((item, index) => {
+                                                        if (item._id === _id) {
+                                                            return index
+                                                        }
+                                                        return null
+                                                    }).filter(i=>i)
+                                                    console.log(index)
+                                                    newArr.splice(Number(index), 1)
+                                                    console.log(newArr)
+                                                    this.setState({
+                                                        list: newArr
+                                                    })
+                                                }}
+                                                key="comment-nested-reply-remove">忽略消息
+                                                    </span>,
+                                            <span
+                                                onClick={() => {
+                                                    this.props.dispatch(oneTextareaAction(`reply${reply_id}`))
+                                                }}
+                                                key="comment-nested-reply-to">点击回复
+                                                    </span>]}
                                     >
                                         <Skeleton avatar title={false} loading={item.loading} active>
                                             <List.Item.Meta
@@ -102,13 +131,26 @@ class ConMessage extends Component {
                                                     <Avatar
                                                         src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
                                                 }
-                                                title={index < 3 ? <div><FireTwoTone /> {time}</div> : time}
+                                                title={index < 3 ? <div><FireTwoTone/> {time}</div> : time}
                                                 description={`${to_uid.username}
                                                 在文章《${article_id.title}》${isReply ? "回复" : "评论"}`}
                                             />
                                             <div>{content}</div>
                                         </Skeleton>
                                     </List.Item>
+                                        {
+                                            //  合展 输入框
+                                            this.props.oneTextareaReducer === `reply${reply_id}` ?
+                                                <ConComtextare
+                                                    key={"reply" + reply_id}
+                                                    comment_id={reply_id}
+                                                    from_uid={to_uid._id}
+                                                    to_uid={getLocalStore()._id}
+                                                    isReply={true}
+                                                    articleID={article_id._id}
+                                                /> : null
+                                        }
+                                    </>
                                 }}
                             />
                         </div>

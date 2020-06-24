@@ -13,10 +13,12 @@ import {connect} from 'react-redux';
 import {saveLocalStore} from "../../../utils/localStorageUtils";
 import {clickHeadAction} from "../../../reducers/clickHeadReducer";
 
+@withRouter
+@connect()
 class ConBreadcrumb extends Component {
     breadcrumbNameMap = {
         '/web': 'web教程',
-        '/article': '返回搜索页'
+        '/article': '返回列表页'
     };
 
     handleClick = () => {
@@ -46,10 +48,8 @@ class ConBreadcrumb extends Component {
     breadcrumbItems = [
         <Breadcrumb.Item key="home">
             <Link onClick={()=>this.handleClick()} to="/">首页</Link>
-        </Breadcrumb.Item>,
+        </Breadcrumb.Item>
     ].concat(this.extraBreadcrumbItems)
-
-
 
     render() {
         return (
@@ -61,4 +61,4 @@ class ConBreadcrumb extends Component {
 }
 
 // withRouter 使普通路由能访问 history location
-export default connect()(withRouter(ConBreadcrumb))
+export default ConBreadcrumb

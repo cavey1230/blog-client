@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Divider, Layout, Affix} from 'antd';
 import {Route, Switch} from "react-router-dom";
-import {UpOutlined, DownOutlined} from "@ant-design/icons";
+// import {UpOutlined, DownOutlined} from "@ant-design/icons";
 
 import {userUPaction} from "../../reducers/userReducer";
 import {getLocalStore} from "../../utils/localStorageUtils";
@@ -16,6 +16,7 @@ import ConMessage from "../../components/content/con_message";
 import RouterGuard from "../../highOrder/routerGuard";
 
 import "./home.less";
+import ConSearch from "../../components/content/con_search";
 
 const {Header, Footer, Content} = Layout;
 
@@ -37,32 +38,32 @@ class Home extends Component {
         if (result && result._id) {
             this.props.dispatch(userUPaction(result))
         }
-        window.addEventListener('scroll', this.bindHandleScroll)
+        // window.addEventListener('scroll', this.bindHandleScroll)
     }
 
-    bindHandleScroll = (event) => {
-        // 滚动的高度
-        const scrollTop = (event.target ? event.target.documentElement.scrollTop : false)
-            || window.pageYOffset
-            || (event.target ? event.target.body.scrollTop : 0)
-        const height = event.target.documentElement.scrollHeight
-        if (scrollTop > Math.floor(height / 4)) {
-            this.setState({
-                loading: "up",
-                height: 0
-            })
-        } else {
-            this.setState({
-                loading: "down",
-                height: height
-            })
-        }
-    }
+    // bindHandleScroll = (event) => {
+    //     // 滚动的高度
+    //     const scrollTop = (event.target ? event.target.documentElement.scrollTop : false)
+    //         || window.pageYOffset
+    //         || (event.target ? event.target.body.scrollTop : 0)
+    //     const height = event.target.documentElement.scrollHeight
+    //     if (scrollTop > Math.floor(height / 4)) {
+    //         this.setState({
+    //             loading: "up",
+    //             height: 0
+    //         })
+    //     } else {
+    //         this.setState({
+    //             loading: "down",
+    //             height: height
+    //         })
+    //     }
+    // }
 
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.bindHandleScroll);
-    }
+    // componentWillUnmount() {
+    //     window.removeEventListener('scroll', this.bindHandleScroll);
+    // }
 
 
     render() {
@@ -76,17 +77,18 @@ class Home extends Component {
                         <Route exact path="/" component={ConHome}/>
                         <Route exact path="/web" component={ConWeb}/>
                         <Route exact path="/article/:id" component={ConArticle}/>
+                        <Route exact path="/search/:keys" component={ConSearch}/>
                         <RouterGuard exact path="/message" component={ConMessage}/>
                         <Route component={Con404}/>
                     </Switch>
-                    {
-                        <div className="UpOutlined">
-                            <div onClick={() => this.onClick()} className="icon_group">
-                                {this.state.loading === "up" ? <UpOutlined className="icon"/> : ""}
-                                {this.state.loading === "up" ? "" : <DownOutlined className="icon"/>}
-                            </div>
-                        </div>
-                    }
+                    {/*{*/}
+                    {/*    <div className="UpOutlined">*/}
+                    {/*        <div onClick={() => this.onClick()} className="icon_group">*/}
+                    {/*            {this.state.loading === "up" ? <UpOutlined className="icon"/> : ""}*/}
+                    {/*            {this.state.loading === "up" ? "" : <DownOutlined className="icon"/>}*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*}*/}
                 </Content>
                 <Divider/>
                 <Footer><MyFooter/></Footer>

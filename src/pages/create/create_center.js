@@ -46,11 +46,13 @@ class PageCreateCenter extends Component {
                     }}>退出中心
                     </div>
                 </div>
-                <div className="mode_pad">
-                    <div>编辑还是新建？</div>
-                    <div className="mode_pad_select">
-                        <div><Link to="/create/edit" className="create_center_link">编辑</Link></div>
-                        <div><Link to="/create/new/guide" className="create_center_link">新建</Link></div>
+                <div className="create_container">
+                    <div className="mode_pad">
+                        <div>编辑还是新建？</div>
+                        <div className="mode_pad_select">
+                            <div><Link to="/create/edit" className="create_center_link">编辑</Link></div>
+                            <div><Link to="/create/new/guide" className="create_center_link">新建</Link></div>
+                        </div>
                     </div>
                 </div>
             </div>

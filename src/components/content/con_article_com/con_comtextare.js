@@ -34,17 +34,20 @@ class ConComtextare extends Component {
                     reply_id: this.props.comment_id,
                     reply_type: "comment",
                     content: this.state.value,
-                    from_uid: this.props.to_uid || this.props.from_uid,
+                    from_uid: this.props.from_uid||this.props.to_uid,
                     to_uid: this.user_data._id
                 }
                 result = await PostReply(inner_Object)
+                if(result.status===0){
+                    message.success("回复成功")
+                }
                 await PostCreateMessage({
                     isReply: true,
-                    article_id: this.articlePath,
+                    article_id: this.props.articleID || this.articlePath,
                     ...inner_Object
                 })
             } else {
-                const inner_Object={
+                const inner_Object = {
                     content: this.state.value,
                     topic_type: "article",
                     topic_id: this.articlePath,
@@ -64,13 +67,15 @@ class ConComtextare extends Component {
                     value: ''
                 })
                 this.props.dispatch(oneTextareaAction(""))
-                getArticleAndComment(this.articlePath).then(res => {
-                    const {main, ...rest} = res
-                    if (main) {
-                        const {result, tables} = createIndex(mdParser.render(main))
-                        this.props.dispatch(flushAction({...rest, main: result, tables}))
-                    }
-                })
+                if (!this.props.articleID) {
+                    getArticleAndComment(this.articlePath).then(res => {
+                        const {main, ...rest} = res
+                        if (main) {
+                            const {result, tables} = createIndex(mdParser.render(main))
+                            this.props.dispatch(flushAction({...rest, main: result, tables}))
+                        }
+                    })
+                }
             }
         } catch (error) {
             message.error("发送失败，字符小于2或大于100")

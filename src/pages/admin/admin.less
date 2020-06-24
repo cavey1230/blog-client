@@ -1,0 +1,55 @@
+.admin{
+  padding: 16px 24px;
+  max-width: 1366px;
+  margin: auto;
+  .update_Recommend{
+    display: flex;
+    justify-content: flex-start;
+    @media screen and(max-width: 450px){
+      flex-direction: column;
+    }
+    .update_Recommend_item{
+      width: 20%;
+      padding: 24px;
+      @media screen and(max-width: 450px){
+        width: 100%;
+      }
+    }
+  }
+  .update_target{
+    display: flex;
+    flex-direction: column;
+    .admin_target_type{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .admin_target_form{
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        @media screen and(max-width: 450px){
+          flex-direction: column;
+        }
+        .admin_target_form_item{
+          width: 20%;
+          padding: 24px;
+          @media screen and(max-width: 450px){
+            padding: 0;
+            width: 100%;
+          }
+        }
+        .createButton{
+          width: 20%;
+          padding: 24px;
+          height: initial;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #0e9aa7;
+          font-size: 32px;
+          border: 1px solid #0e9aa7;
+        }
+      }
+    }
+  }
+}

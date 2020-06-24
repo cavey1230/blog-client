@@ -121,4 +121,29 @@
       width: 100%;
     }
   }
+  //搜索页
+  .con_search_pad{
+    padding: 16px 24px;
+    min-height: 80vh;
+    .con_search_first{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      @media screen and(max-width: 450px){
+        flex-direction: column;
+      }
+      .con_search_first_item{
+        width: 33%;
+        padding: 16px;
+        @media screen and(max-width: 450px){
+          width: 100%;
+        }
+        p{
+          span{
+            color: #0e9aa7;
+          }
+        }
+      }
+    }
+  }
 }

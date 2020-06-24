@@ -65,8 +65,7 @@ class ConMainArti extends Component {
     renderComments = () => {
         return this.state.comments.length === 0 ?
             <Empty
-                image="https://s1.ax1x.com/2020/06/06/t69lng.png"
-                description={<span>首席地摊位空闲，赶快来吃瓜</span>}
+                description={<span>当前没有评论</span>}
             /> :
             <List
                 itemLayout="vertical"

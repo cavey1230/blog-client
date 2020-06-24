@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Button, Form, Input, message} from 'antd';
-import {UserOutlined, LockOutlined} from '@ant-design/icons';
+import {UserOutlined, LockOutlined, BarcodeOutlined} from '@ant-design/icons';
 import {connect} from "react-redux"
 import {withRouter} from "react-router-dom";
 
@@ -16,11 +16,12 @@ class Login extends Component {
     state = {
         loading: false,
         visible: false,
+        random: ""
     };
 
     showModal = () => {
-        document.body.style.overflow="auto"
-        document.body.style.width="100%"
+        document.body.style.overflow = "auto"
+        document.body.style.width = "100%"
         this.setState({
             visible: true,
         });
@@ -32,8 +33,8 @@ class Login extends Component {
 
     onFinish = async values => {
         this.setState({loading: true});
-        const {username, password} = values
-        const res = await LoginApi(username, password)
+        const {username, password, captcha} = values
+        const res = await LoginApi(username, password, captcha)
         if (res.status === 0) {
             saveLocalStore({...getLocalStore(), ...res.data})
             this.setState({loading: false, visible: false})
@@ -43,7 +44,7 @@ class Login extends Component {
             }
             this.props.dispatch(userUPaction(res.data))
         } else {
-            message.error("登录失败，账号或密码出错")
+            message.error(res.msg)
             this.setState({loading: false})
         }
     };
@@ -52,7 +53,7 @@ class Login extends Component {
         const {visible, loading} = this.state;
         return (
             <div>
-                <Button style={{color:"white"}} type="link" onClick={this.showModal}>
+                <Button style={{color: "white"}} type="link" onClick={this.showModal}>
                     登录
                 </Button>
                 <Modal
@@ -78,7 +79,7 @@ class Login extends Component {
                                 {
                                     required: true,
                                     whitespace: true,
-                                    message: 'Please input your Username!',
+                                    message: '请输入用户名!',
                                 },
                                 {
                                     min: 4,
@@ -102,7 +103,7 @@ class Login extends Component {
                                 {
                                     required: true,
                                     whitespace: true,
-                                    message: 'Please input your Password!',
+                                    message: '请输入密码',
                                 },
                                 {
                                     min: 4,
@@ -124,6 +125,29 @@ class Login extends Component {
                                 placeholder="Password"
                             />
                         </Form.Item>
+                        <div className="captcha">
+                            <Form.Item
+                                name="captcha"
+                                style={{width: "70%"}}
+                                rules={[
+                                    {
+                                        required: true,
+                                        whitespace: true,
+                                        message: '请输入验证码',
+                                    }
+                                ]}
+                            >
+                                <Input
+                                    prefix={<BarcodeOutlined className="site-form-item-icon"/>}
+                                    placeholder="captcha"
+                                />
+                            </Form.Item>
+                            <img width="30%" onClick={() => {
+                                this.setState({
+                                    random: Math.random() * 100
+                                })
+                            }} src={`http://localhost:5000/getCaptcha?id=${this.state.random}`} alt="验证码"/>
+                        </div>
                         <Form.Item>
                             <Button type="primary" loading={loading} htmlType="submit"
                                     className="login-form-button">
